@@ -26,6 +26,8 @@ a corresponding power spectral density diagram.
 
 ## Demo
 
+This is a weak 750Hz sinusoidal tone.
+
 ![alt text](./images/spectrum_analyzer.gif?raw=true "spectrum_analyzer")
 
 
