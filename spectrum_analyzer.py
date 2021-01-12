@@ -67,11 +67,11 @@ def animate(i):
     S = np.fft.fft(signal) / (np.size(signal))
     psd = np.abs(S * np.conj(S))
     psd_log = 10 * np.log(psd * 1000)
-    joules_per_sec = round(np.sum(psd) / (CHUNK/RATE) * 1000, 3)
+    mjoules_per_sec = round(np.sum(psd) / (CHUNK/RATE) * 1000, 3)
     psdline.set_ydata(psd_log[:np.size(S)//2+1])
     waveline.set_ydata(signal)
     chunk_count.set_text("Num. of Chunks: {0}".format(chunks))
-    energy.set_text("Energy (mJ/s): {0}".format(joules_per_sec))
+    energy.set_text("Energy (mJ/s): {0}".format(mjoules_per_sec))
     plt.tight_layout()
 
 
