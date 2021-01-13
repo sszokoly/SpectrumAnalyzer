@@ -34,7 +34,7 @@ def init():
 
     ax_wave.set_title("AUDIO WAVEFORM ({} Hz)".format(RATE), color=AXIS_COLOR)
     ax_wave.set_xlabel("Time (ms)"),
-    ax_wave.set_ylabel("Applitude (V)", color=AXIS_COLOR),
+    ax_wave.set_ylabel("Applitude", color=AXIS_COLOR),
     ax_wave.set(xlim=(0, MAXX), ylim=(-1, 1))
     wave_x = np.arange(0, MAXX, MAXX / CHUNK)
     wave_y = np.zeros(CHUNK)
@@ -44,8 +44,8 @@ def init():
 
     ax_pds.set_title("POWER SPECTRUM", color=AXIS_COLOR)
     ax_pds.set_xlabel("Frequency (Hz)"),
-    ax_pds.set_ylabel("Power (dBm)", color=AXIS_COLOR),
-    ax_pds.set(xlim=(0, RATE//2), ylim=(-100, 10))
+    ax_pds.set_ylabel("Magnitude (dB)", color=AXIS_COLOR),
+    ax_pds.set(xlim=(0, RATE//2), ylim=(-100, 1))
     ax_pds.set_facecolor("black")
     pds_x = np.arange(0, RATE + RATE/CHUNK, RATE/CHUNK)[:CHUNK//2+1]
     pds_y = np.zeros(CHUNK//2+1)
@@ -66,12 +66,12 @@ def animate(i):
     signal = np.array(chunk) / MAXY
     S = np.fft.fft(signal) / (np.size(signal))
     psd = np.abs(S * np.conj(S))
-    psd_log = 10 * np.log(psd * 1000)
-    mjoules_per_sec = round(np.sum(psd) / (CHUNK/RATE) * 1000, 3)
+    psd_log = 10 * np.log(psd)
+    avg_energy_per_sec = round(np.sum(psd) / (CHUNK/RATE), 5)
     psdline.set_ydata(psd_log[:np.size(S)//2+1])
     waveline.set_ydata(signal)
     chunk_count.set_text("Num. of Chunks: {0}".format(chunks))
-    energy.set_text("Energy (mJ/s): {0}".format(mjoules_per_sec))
+    energy.set_text("Avg Energy: {0}".format(avg_energy_per_sec))
     plt.tight_layout()
 
 
